@@ -48,7 +48,7 @@ const CheckoutProduct = ({
         </div>
         <p className="my-2 line-clamp-3 text-xs">{description}</p>
         <div className="font-bold">
-          <Currency quantity={price} currency="GBP" />
+          <Currency quantity={price} currency="INR" />
         </div>
         {hasPrime && (
           <div className="flex items-center space-x-2">

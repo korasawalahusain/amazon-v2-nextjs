@@ -47,7 +47,10 @@ const Header = () => {
             <p>{!session ? "Sign in" : `Hello, ${session.user.name}`}</p>
             <p className="font-extrabold md:text-sm">Accounts & Lists</p>
           </div>
-          <div className="link cursor-pointer">
+          <div
+            onClick={() => router.push("/orders")}
+            className="link cursor-pointer"
+          >
             <p>Returns</p>
             <p className="font-extrabold lg:text-sm">& Orders</p>
           </div>
