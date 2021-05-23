@@ -24,9 +24,9 @@ export default async (req, res) => {
     line_items: transformedItems,
     mode: "payment",
     success_url:
-      "https://amazon-clone-nextjs-4i8n0na4z-husainkorasawala.vercel.app//success",
+      "https://amazon-clone-nextjs-4i8n0na4z-husainkorasawala.vercel.app/success",
     cancel_url:
-      "https://amazon-clone-nextjs-4i8n0na4z-husainkorasawala.vercel.app//checkout",
+      "https://amazon-clone-nextjs-4i8n0na4z-husainkorasawala.vercel.app/checkout",
     metadata: {
       email,
       images: JSON.stringify(items.map((item) => item.image)),
