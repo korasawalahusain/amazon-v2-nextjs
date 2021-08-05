@@ -2,11 +2,15 @@ import { useRouter } from "next/router";
 import Header from "../components/Header";
 import { getSession } from "next-auth/client";
 import { CheckCircleIcon } from "@heroicons/react/solid";
+import Head from "next/head";
 
 const Success = () => {
   const router = useRouter();
   return (
     <div className="bg-gray-100 h-screen">
+      <Head>
+        <title>Success</title>
+      </Head>
       <Header />
       <main className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col p-10 bg-white">

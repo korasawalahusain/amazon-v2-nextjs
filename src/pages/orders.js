@@ -3,10 +3,14 @@ import db from "../../firebase";
 import Order from "../components/Order";
 import Header from "../components/Header";
 import { getSession } from "next-auth/client";
+import Head from "next/head";
 
 const Orders = ({ orders, session }) => {
   return (
     <div>
+      <Head>
+        <title>Orders</title>
+      </Head>
       <Header />
       <main className="max-w-screen-2xl mx-auto p-10">
         <h1 className="font-bold text-3xl border-b mb-2 pb-1 border-yellow-400">
