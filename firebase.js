@@ -1,18 +1,16 @@
-import firebase from "firebase";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAcVhsXOe57imxx8iRXk4nb-dV8Pb5jmZs",
-  authDomain: "clone-nextjs-dcd54.firebaseapp.com",
-  projectId: "clone-nextjs-dcd54",
-  storageBucket: "clone-nextjs-dcd54.appspot.com",
-  messagingSenderId: "353648867689",
-  appId: "1:353648867689:web:c043670dbac290afaea5f8",
+  apiKey: "AIzaSyATKC5GG6WELkq0AhTZ7GpFXQPqiEYXVTc",
+  authDomain: "nextjs-clone-8d429.firebaseapp.com",
+  projectId: "nextjs-clone-8d429",
+  storageBucket: "nextjs-clone-8d429.appspot.com",
+  messagingSenderId: "371348101515",
+  appId: "1:371348101515:web:f26e431496dbd1dbf0778e",
 };
 
-const app = !firebase.apps.length
-  ? firebase.initializeApp(firebaseConfig)
-  : firebase.app();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
 
-const db = app.firestore();
-
-export default db;
+export { db, app };

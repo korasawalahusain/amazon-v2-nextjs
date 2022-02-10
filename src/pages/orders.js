@@ -1,5 +1,5 @@
-import moment from "moment";
-import db from "../../firebase";
+import { db } from "../../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Order from "../components/Order";
 import Header from "../components/Header";
 import { getSession } from "next-auth/client";
@@ -23,14 +23,14 @@ const Orders = ({ orders, session }) => {
         )}
         <div className="mt-5 space-y-4">
           {orders?.map(
-            ({ id, amount, amountShipping, items, timeStamp, images }, i) => (
+            ({ id, amount, amountShipping, items, date, images }, i) => (
               <Order
                 key={i}
                 id={id}
                 amount={amount}
                 amountShipping={amountShipping}
                 items={items}
-                timeStamp={timeStamp}
+                date={date}
                 images={images}
               />
             )
@@ -51,12 +51,9 @@ export async function getServerSideProps(context) {
       props: {},
     };
   }
-  const stripeOrders = await db
-    .collection("users")
-    .doc(session.user.email)
-    .collection("orders")
-    .orderBy("timeStamp", "desc")
-    .get();
+
+  const docRef = collection(db, "users", session.user.email, "orders");
+  const stripeOrders = await getDocs(docRef);
 
   const orders = await Promise.all(
     stripeOrders.docs.map(async (order) => ({
@@ -64,7 +61,7 @@ export async function getServerSideProps(context) {
       amount: order.data().amount,
       amountShipping: order.data().amount_shipping,
       images: order.data().images,
-      timestamp: moment(order.data().timeStamp.toDate()).unix(),
+      date: order.data().date,
       items: (
         await stripe.checkout.sessions.listLineItems(order.id, {
           limit: 100,

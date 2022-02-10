@@ -1,13 +1,12 @@
-import moment from "moment";
 import Currency from "react-currency-formatter";
 
-const Order = ({ id, amount, amountShipping, items, timeStamp, images }) => {
+const Order = ({ id, amount, amountShipping, items, date, images }) => {
   return (
     <div className="relative border rounded-md">
       <div className="flex items-center space-x-10 p-5 text-sm bg-gray-100 text-gray-600">
         <div>
           <p className="font-bold text-xs">ORDERS PLACES</p>
-          <p>{moment.unix(timeStamp).format("DD MMM YYYY")}</p>
+          <p>{date}</p>
         </div>
         <div>
           <p className="text-xs font-bold">TOTAL</p>

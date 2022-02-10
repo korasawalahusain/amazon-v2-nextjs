@@ -68,7 +68,7 @@ const Checkout = ({ session }) => {
             <h2 className="whitespace-nowrap text-lg">
               {`Subtotal ${items.length} items: `}
               <span className="font-bold">
-                {<Currency quantity={total} currency="GBP" />}
+                {<Currency quantity={total} currency="INR" />}
               </span>
             </h2>
             <button

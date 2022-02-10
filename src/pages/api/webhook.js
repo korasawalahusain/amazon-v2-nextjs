@@ -1,37 +1,20 @@
 import { buffer } from "micro";
-import * as admin from "firebase-admin";
+import { db } from "../../../firebase";
+import { setDoc, doc } from "firebase/firestore";
+import moment from "moment";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-const serviceAccount = require("../../../permissions.json");
-
-const app = !admin.apps.length
-  ? admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    })
-  : admin.app();
 
 const endPointSecret = process.env.STRIPE_SIGNING_SECRET;
 const fullfillOrder = async (session) => {
-  return app
-    .firestore()
-    .collection("users")
-    .doc(session.metadata.email)
-    .collection("orders")
-    .doc(session.id)
-    .set({
+  return setDoc(
+    doc(db, "users", session.metadata.email, "orders", session.id),
+    {
       amount: session.amount_total / 100,
       amount_shipping: session.total_details.amount_shipping / 100,
       images: JSON.parse(session.metadata.images),
-      timeStamp: admin.firestore.FieldValue.serverTimestamp(),
-    })
-    .then(() => {
-      console.log(
-        `SUCCESS! Order ${session.id} is been added to the database.`
-      );
-    })
-    .catch((error) => {
-      console.log(`ERROR! ${error}`);
-    });
+      date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+    }
+  );
 };
 
 export default async (req, res) => {
@@ -45,16 +28,15 @@ export default async (req, res) => {
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endPointSecret);
     } catch (error) {
-      console.log(error.message);
       return res.status(400).send(`Webhook Error ${error.message}`);
     }
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
+
       return fullfillOrder(session)
         .then(() => res.status(200))
         .catch((error) => {
-          console.log(error);
           return res.status(400).send(`Webhook Error ${error.message}`);
         });
     }
